@@ -8,6 +8,8 @@
         public decimal Price { get; set; }
         public int Stock { get; set; }
 
+        public string ImagePath { get; set; } = "/images/default.jpg";
+
         // Внешний ключ и связь
         public int CategoryId { get; set; }
         public Category? Category { get; set; } // Связь многие к одному с Category
