@@ -11,11 +11,17 @@ namespace Shop.Data.Configuration
         {
             builder.HasKey(u => u.UserId);
             builder.Property(u => u.UserName)
-                .HasMaxLength(100);
+                .HasMaxLength(100)
+                .IsRequired();
             builder.Property(u=>u.Email)
                 .IsRequired();
             builder.Property(u=>u.PasswordHash)
+                .HasMaxLength(100)
                 .IsRequired();
+
+            builder.HasIndex(e => e.Email)
+            .IsUnique();
+
             builder.HasMany(u => u.BalanceHistories)
                 .WithOne(b => b.User);
             builder.HasMany(u => u.Orders)

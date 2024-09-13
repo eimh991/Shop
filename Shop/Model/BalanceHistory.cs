@@ -5,7 +5,7 @@
         public int BalanceHistoryId { get; set; }
         public decimal Amount { get; set; }
         public string Description { get; set; } = string.Empty;
-        public DateTime TransactionDate { get; set; }
+        public DateTime TransactionDate { get; set; } 
 
         // Внешний ключ и связь
         public int UserId { get; set; }

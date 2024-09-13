@@ -10,7 +10,7 @@ namespace Shop.Data.Configuration
         {
             builder.HasKey(bh=>bh.BalanceHistoryId);
             builder.Property(bh=>bh.Description)
-                .HasMaxLength(100);
+                .HasMaxLength(250);
             builder.Property(bh=>bh.Amount)
                 .IsRequired();
 
