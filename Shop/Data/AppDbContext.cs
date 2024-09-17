@@ -7,13 +7,13 @@ namespace Shop.Data
     public class AppDbContext : DbContext 
     {
 
-        DbSet<User> Users { get; set; }
-        DbSet<Product> Products { get; set; }
-        DbSet<Category> Categories { get; set; }
-        DbSet<Order> Orders { get; set; }
-        DbSet<OrderItem> OrderItems { get; set; }
-        DbSet<CartItem> CartItems { get; set; }
-        DbSet<BalanceHistory> BalanceHistory { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<BalanceHistory> BalanceHistory { get; set; }
 
 
         private readonly  IConfiguration _configuration;

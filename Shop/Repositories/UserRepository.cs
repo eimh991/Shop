@@ -15,6 +15,8 @@ namespace Shop.Repositories
         }
         public  async Task CreateAsync(User entity)
         {
+            entity.Cart = new Cart();
+
             await _context.Users.AddAsync(entity);
             await _context.SaveChangesAsync();
         }

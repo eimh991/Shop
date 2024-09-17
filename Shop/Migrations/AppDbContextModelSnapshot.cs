@@ -184,6 +184,10 @@ namespace Shop.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -192,7 +196,7 @@ namespace Shop.Migrations
                     b.Property<decimal>("Price")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("numeric")
-                        .HasDefaultValue(100m);
+                        .HasDefaultValue(0.01m);
 
                     b.Property<int>("Stock")
                         .HasColumnType("integer");
@@ -221,7 +225,8 @@ namespace Shop.Migrations
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<int>("Role")
                         .HasColumnType("integer");
@@ -232,6 +237,9 @@ namespace Shop.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.HasKey("UserId");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
