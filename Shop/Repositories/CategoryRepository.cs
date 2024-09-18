@@ -34,7 +34,9 @@ namespace Shop.Repositories
 
         public async Task<Category> GetByIdAsync(int id)
         {
-            var category = await _context.Categories.FirstOrDefaultAsync(c=>c.CategoryId==id);
+            var category = await _context.Categories
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c=>c.CategoryId==id);
             return category ?? null;
         }
 

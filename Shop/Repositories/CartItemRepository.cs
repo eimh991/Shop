@@ -5,7 +5,7 @@ using Shop.Model;
 
 namespace Shop.Repositories
 {
-    public class CartItemRepository : IRepositoryWhisUser<CartItem>
+    public class CartItemRepository : IRepositoryWithUser<CartItem>
     {
         private readonly AppDbContext _context;
         public CartItemRepository(AppDbContext context)

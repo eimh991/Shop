@@ -13,7 +13,7 @@ namespace Shop.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
-        public DbSet<BalanceHistory> BalanceHistory { get; set; }
+        public DbSet<BalanceHistory> BalanceHistorys { get; set; }
 
 
         private readonly  IConfiguration _configuration;
@@ -35,6 +35,7 @@ namespace Shop.Data
             modelBuilder.ApplyConfiguration(new ProductConfiguration());
             modelBuilder.ApplyConfiguration(new CartItemConfiguration());
             modelBuilder.ApplyConfiguration(new CartConfiguration());
+            modelBuilder.ApplyConfiguration(new BalanceHistoryConfiguration());
             base.OnModelCreating(modelBuilder);
         }
     }
