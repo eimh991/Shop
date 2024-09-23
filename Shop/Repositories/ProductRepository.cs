@@ -17,7 +17,7 @@ namespace Shop.Repositories
             await _context.SaveChangesAsync();  
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {   /*
             var product = await _context.Products.FirstOrDefaultAsync(p=>p.ProductId == id);
             if (product != null)

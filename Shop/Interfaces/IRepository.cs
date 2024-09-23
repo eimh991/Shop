@@ -6,7 +6,7 @@
         Task UpdateAsync(T entity);
         Task<T> GetByIdAsync(int id);
         Task<IEnumerable<T>> GetAllAsync(string search);
-        Task Delete(int id);
+        Task DeleteAsync(int id);
  
     }
 }

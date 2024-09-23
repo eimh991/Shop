@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Shop.Data;
+using Shop.Enum;
 using Shop.Interfaces;
 using Shop.Model;
 
@@ -21,7 +23,7 @@ namespace Shop.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
             
@@ -87,6 +89,25 @@ namespace Shop.Repositories
                 return user;
             }
             return null;
+        }
+
+        public async Task ChangeStatusAsync(int userId,string status)
+        {
+            var userRole = UserRole.User;
+            if(UserRole.Admin.ToString().ToLower() == status.ToLower())
+            {
+                userRole = UserRole.Admin;
+            }
+            else if(UserRole.Manager.ToString().ToLower() == status.ToLower())
+            {
+                userRole = UserRole.Manager;
+            }
+
+            await _context.Users
+                .Where(u => u.UserId == userId)
+                .ExecuteUpdateAsync(s => s
+                    .SetProperty(u => u.Role , userRole)
+                    );
         }
     }
 }

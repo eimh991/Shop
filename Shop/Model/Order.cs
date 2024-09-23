@@ -1,5 +1,6 @@
 ﻿namespace Shop.Model
 {
+    
     public class Order
     {
         public int OrderId { get; set; }

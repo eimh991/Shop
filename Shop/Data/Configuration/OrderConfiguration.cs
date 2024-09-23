@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Shop.Model;
 
+
 namespace Shop.Data.Configuration
 {
     public class OrderConfiguration : IEntityTypeConfiguration<Order>
