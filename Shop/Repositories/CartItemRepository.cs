@@ -45,7 +45,8 @@ namespace Shop.Repositories
         public async Task<IEnumerable<CartItem>> GetAllAsync(int userId)
         {
             var user =  await _context.Users
-           .FirstOrDefaultAsync(u => u.UserId == userId);
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.UserId == userId);
            
             if(user != null)
             return user.Cart.CartItems;
@@ -56,7 +57,8 @@ namespace Shop.Repositories
         public  async Task<CartItem> GetByIdAsync(int userId,int entityId)
         {
             var user = await _context.Users
-           .FirstOrDefaultAsync(u => u.UserId == userId);
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.UserId == userId);
 
             if (user != null)
             {
@@ -69,7 +71,8 @@ namespace Shop.Repositories
         public async Task Update(int userId, CartItem entity)
         {
             var  user = await _context.Users
-           .FirstOrDefaultAsync(u => u.UserId == userId);
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.UserId == userId);
 
             if (user != null)
             {

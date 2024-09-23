@@ -20,6 +20,7 @@ namespace Shop.Repositories
             if (user != null)
             {
                 user.Orders.Add(entity);
+                await _context.SaveChangesAsync();
             }
 
         }
