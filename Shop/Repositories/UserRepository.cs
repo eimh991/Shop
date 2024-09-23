@@ -36,12 +36,13 @@ namespace Shop.Repositories
 
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync()
+        public async Task<IEnumerable<User>> GetAllAsync(string search)
         {
             var users = await _context.Users
                 .AsNoTracking()
                 .Include(u=>u.Orders)
-                .ToListAsync();
+                .Where(u=>!string.IsNullOrWhiteSpace(search) &&
+                u.UserName.ToLower().Contains(search.ToLower())).ToListAsync();
 
             if (users != null)
             {
@@ -69,12 +70,9 @@ namespace Shop.Repositories
             await _context.Users
                 .Where(u => u.UserId == entity.UserId)
                 .ExecuteUpdateAsync(s =>s
-                    .SetProperty(u => u.UserId, entity.UserId)
                     .SetProperty(u => u.UserName, entity.UserName)
                     .SetProperty(u => u.Email, entity.Email)
                     .SetProperty(u => u.PasswordHash, entity.PasswordHash)
-                    .SetProperty(u => u.Balance, entity.Balance)
-                    .SetProperty(u => u.Role, entity.Role)
                 );
         }
 

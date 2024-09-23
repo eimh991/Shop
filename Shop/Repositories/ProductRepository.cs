@@ -32,11 +32,12 @@ namespace Shop.Repositories
             
         }
 
-        public async Task<IEnumerable<Product>> GetAllAsync()
+        public async Task<IEnumerable<Product>> GetAllAsync(string search)
         {
             return await _context.Products
                             .AsNoTracking()
-                            .ToListAsync();
+                            .Where(p=> !string.IsNullOrWhiteSpace(search) &&
+                            p.Name.ToLower().Contains(search.ToLower())).ToListAsync();
         }
 
         public async Task<Product> GetByIdAsync(int id)
