@@ -60,11 +60,29 @@ namespace Shop.Repositories
                .Where(p => p.ProductId == entity.ProductId)
                .ExecuteUpdateAsync(s => s
                    .SetProperty(p => p.Name, entity.Name)
-                   .SetProperty(u => u.Description, entity.Description)
-                   .SetProperty(u => u.Price, entity.Price)
-                   .SetProperty(u => u.Stock, entity.Stock)
+                   .SetProperty(p => p.Description, entity.Description)
+                   .SetProperty(p=>p.CategoryId, entity.CategoryId)
                );
 
+        }
+
+        public async Task ChangePriceAsync(Product entity)
+        {
+            await _context.Products
+               .Where(p => p.ProductId == entity.ProductId)
+               .ExecuteUpdateAsync(s => s
+                   .SetProperty(p => p.Price, entity.Price)
+               );
+        }
+        public async Task ChangeQuantityProductAsync(Product entity)
+        {
+            var product = await _context.Products.FirstOrDefaultAsync(p => p.ProductId == entity.ProductId);
+            if (product != null)
+            {
+                product.Stock += entity.Stock;
+                await _context.SaveChangesAsync();
+            }
+  
         }
     }
 }

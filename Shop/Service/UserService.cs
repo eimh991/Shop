@@ -63,6 +63,7 @@ namespace Shop.Service
         {
             User user = new User()
             {
+                UserId = entity.UserId,
                 UserName = entity.UserName,
                 Email = entity.Email,
                 PasswordHash = entity.PasswordHash,
