@@ -16,7 +16,7 @@ namespace Shop.Service
         }
         public async Task CreateAsync(ProductDTO entity)
         {
-            var category = ((CategoryRepository)_categoryRepository).FindByCategoryTitlleAsync(entity.CategoryTitle);
+            var category =  await ((CategoryRepository)_categoryRepository).FindByCategoryTitlleAsync(entity.CategoryTitle);
 
 
             Product product = new Product
@@ -27,7 +27,7 @@ namespace Shop.Service
                 Description = entity.Description,
                 ImagePath = entity.ImagePath,
                 Stock = entity.Stock,
-                CategoryId = category.Id,
+                CategoryId = category.CategoryId,
             };
             await _productRepository.CreateAsync(product);
 
@@ -51,7 +51,7 @@ namespace Shop.Service
 
         public async Task UpdateAsync(ProductDTO entity)
         {
-            var category = ((CategoryRepository)_categoryRepository).FindByCategoryTitlleAsync(entity.CategoryTitle);
+            var category = await ((CategoryRepository)_categoryRepository).FindByCategoryTitlleAsync(entity.CategoryTitle);
             Product product = new Product
             {
                 ProductId = entity.ProductId,
@@ -60,7 +60,7 @@ namespace Shop.Service
                 Description = entity.Description,
                 ImagePath = entity.ImagePath,
                 Stock = entity.Stock,
-                CategoryId = category.Id,
+                CategoryId = category.CategoryId,
             };
             await _productRepository.UpdateAsync(product);
         }
