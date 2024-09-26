@@ -7,13 +7,18 @@ namespace Shop.Service
 {
     public class ProductService : IProductService
     {
-        private readonly IRepository<Product> _repository;
-        public ProductService(IRepository<Product> repository){
-            
-            _repository = repository;
+        private readonly IRepository<Product> _productRepository;
+        private readonly IRepository<Category> _categoryRepository;
+        public ProductService(IRepository<Product> productRepository, IRepository<Category> categoryRepository)
+        {
+            _productRepository = productRepository;
+            _categoryRepository = categoryRepository;
         }
         public async Task CreateAsync(ProductDTO entity)
         {
+            var category = ((CategoryRepository)_categoryRepository).FindByCategoryTitlleAsync(entity.CategoryTitle);
+
+
             Product product = new Product
             {
                 ProductId = entity.ProductId,
@@ -22,30 +27,31 @@ namespace Shop.Service
                 Description = entity.Description,
                 ImagePath = entity.ImagePath,
                 Stock = entity.Stock,
-                CategoryId = entity.CategoryId,
+                CategoryId = category.Id,
             };
-            await _repository.CreateAsync(product);
+            await _productRepository.CreateAsync(product);
 
 
         }
 
         public async Task Delete(int id)
         {
-           await _repository.DeleteAsync(id);
+           await _productRepository.DeleteAsync(id);
         }
 
         public async Task<IEnumerable<Product>> GetAllAsync(string search)
         {
-            return await _repository.GetAllAsync(search);
+            return await _productRepository.GetAllAsync(search);
         }
 
         public async Task<Product> GetByIdAsync(int id)
         {
-            return await _repository.GetByIdAsync(id);
+            return await _productRepository.GetByIdAsync(id);
         }
 
         public async Task UpdateAsync(ProductDTO entity)
         {
+            var category = ((CategoryRepository)_categoryRepository).FindByCategoryTitlleAsync(entity.CategoryTitle);
             Product product = new Product
             {
                 ProductId = entity.ProductId,
@@ -54,9 +60,9 @@ namespace Shop.Service
                 Description = entity.Description,
                 ImagePath = entity.ImagePath,
                 Stock = entity.Stock,
-                CategoryId = entity.CategoryId,
+                CategoryId = category.Id,
             };
-            await _repository.UpdateAsync(product);
+            await _productRepository.UpdateAsync(product);
         }
 
         public async Task ChangePriceAsync(ProductDTO entity)
@@ -68,7 +74,7 @@ namespace Shop.Service
                     ProductId = entity.ProductId,
                     Price = entity.Price,
                 };
-                 await ((ProductRepository)_repository).ChangePriceAsync(product);
+                 await ((ProductRepository)_productRepository).ChangePriceAsync(product);
             }
             
         }
@@ -82,7 +88,7 @@ namespace Shop.Service
                     ProductId = entity.ProductId,
                     Stock = entity.Stock,
                 };
-                await ((ProductRepository)_repository).ChangeQuantityProductAsync(product);
+                await ((ProductRepository)_productRepository).ChangeQuantityProductAsync(product);
             }
 
         }

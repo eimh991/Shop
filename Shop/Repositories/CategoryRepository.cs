@@ -50,5 +50,12 @@ namespace Shop.Repositories
                 .SetProperty(c=>c.CategoryName,entity.CategoryName)
                 );
         }
+        
+        public async Task<Category> FindByCategoryTitlleAsync(string title)
+        {
+            return await _context.Categories
+                .FirstOrDefaultAsync(c => c.CategoryName == title)
+                ?? throw new Exception(message: "Вы выбрали не существующию категорию");
+        }
     }
 }

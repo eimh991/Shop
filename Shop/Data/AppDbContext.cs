@@ -36,6 +36,7 @@ namespace Shop.Data
             modelBuilder.ApplyConfiguration(new CartItemConfiguration());
             modelBuilder.ApplyConfiguration(new CartConfiguration());
             modelBuilder.ApplyConfiguration(new BalanceHistoryConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             base.OnModelCreating(modelBuilder);
         }
     }
