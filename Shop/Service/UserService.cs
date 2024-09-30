@@ -86,16 +86,19 @@ namespace Shop.Service
         public async Task<string> Login (string email ,string password)
         {
             var user = await ((UserRepository)_userRepository).GetByEmailAsync(email);
-
-            var result = _passwordHasher.Verify(password, user.PasswordHash);
-
-            if (result == false)
+            if (user != null)
             {
-                throw new Exception("Некоректный логин или пароль");
+                var result = _passwordHasher.Verify(password, user.PasswordHash);
+                if (result == false)
+                {
+                    throw new Exception("Некоректный логин или пароль");
+                }
+
+                var token = _jwtProvider.GenerateToken(user);
+                return token;
             }
 
-            var token = _jwtProvider.GenerateToken(user);
-            return token;
+            throw new Exception("Нет такого пользователя");
         }
 
 
