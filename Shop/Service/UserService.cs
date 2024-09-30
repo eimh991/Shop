@@ -9,8 +9,15 @@ namespace Shop.Service
     public class UserService : IUserService
     {
         private readonly IRepository<User> _userRepository;
-        public UserService(IRepository<User> userRepository) {
+        private readonly IPasswordHasher _passwordHasher;
+        private readonly IJwtProvider _jwtProvider;
+        public UserService(IRepository<User> userRepository,
+                            IPasswordHasher passwordHasher,
+                            IJwtProvider jwtProvider) {
+
             _userRepository = userRepository;
+            _passwordHasher = passwordHasher;
+            _jwtProvider = jwtProvider;
         }
 
         public async Task ChangeStatusAsync(int userId,string status)
@@ -31,7 +38,7 @@ namespace Shop.Service
             {
                 UserName = entity.UserName,
                 Email = entity.Email,
-                PasswordHash = entity.PasswordHash,
+                PasswordHash = Register(entity.Password),
                 Balance = 0.0m,
                 Role = Enum.UserRole.User,
             };
@@ -66,9 +73,29 @@ namespace Shop.Service
                 UserId = entity.UserId,
                 UserName = entity.UserName,
                 Email = entity.Email,
-                PasswordHash = entity.PasswordHash,
+                PasswordHash = Register(entity.Password),
             };
            await _userRepository.UpdateAsync(user);
+        }
+
+        private string Register(string password)
+        {
+            return _passwordHasher.Generate(password);  
+        }
+
+        public async Task<string> Login (string email ,string password)
+        {
+            var user = await ((UserRepository)_userRepository).GetByEmailAsync(email);
+
+            var result = _passwordHasher.Verify(password, user.PasswordHash);
+
+            if (result == false)
+            {
+                throw new Exception("Некоректный логин или пароль");
+            }
+
+            var token = _jwtProvider.GenerateToken(user);
+            return token;
         }
 
 
