@@ -18,7 +18,7 @@ namespace Shop.Controllers
         public async Task<IResult> Login(LoginUserDTO loginUserDTO)
         {
             var token = await ((UserService)_userService).Login(loginUserDTO.Email, loginUserDTO.Password);
-            return Results.Ok(token);
+            return Results.Ok( new { token = "Bearer " + token });
         }
     }
 }

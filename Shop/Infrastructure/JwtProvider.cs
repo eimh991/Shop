@@ -17,7 +17,9 @@ namespace Shop.Infrastructure
         }
         public string GenerateToken(User user)
         {
-            Claim[] claims = [new("userId", user.UserId.ToString())]; 
+            var claims = new List<Claim> {
+                new Claim(ClaimTypes.Sid, user.UserId.ToString())
+            };
             var signingCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey)),
                 SecurityAlgorithms.HmacSha256);
