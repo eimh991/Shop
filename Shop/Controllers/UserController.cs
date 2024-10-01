@@ -22,7 +22,7 @@ namespace Shop.Controllers
         public async Task<IResult> Register(UserDTO userDTO)
         {
             await _userService.CreateAsync(userDTO);
-            
+
             return Results.Ok();
         }
 
@@ -37,11 +37,6 @@ namespace Shop.Controllers
 
         private async Task<User> getUser()
         {
-            foreach (var item in HttpContext.User.Claims)
-            {
-                Console.WriteLine(item.Value);
-            }
-
             var userStringId = HttpContext.User.Claims
                 .FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
             if (userStringId == null)

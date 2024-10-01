@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Shop.Data;
 using Shop.Infrastructure;
 using Shop.Interfaces;
@@ -25,21 +26,41 @@ builder.Services.AddScoped<IRepository<User>, UserRepository>();
 builder.Services.AddScoped<IRepository<Product>, ProductRepository>();
 builder.Services.AddScoped<IRepository<Category>, CategoryRepository>();
 
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "¬ведите JWT в формате Bearer <token>"
+    });
 
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement {
+        {
+          new OpenApiSecurityScheme {
+            Reference = new OpenApiReference {
+            Type = ReferenceType.SecurityScheme,
+            Id = "Bearer"
+            }
+          },
+            new string[] { }
+        }
+    });
+});
 var app = builder.Build();
+app.UseAuthentication();
 
-// Configure the HTTP request pipeline.
+app.UseAuthorization();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseHttpsRedirection();
-
-app.UseAuthentication();
-
-app.UseAuthorization();
 
 app.MapControllers();
 
