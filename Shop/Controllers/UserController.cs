@@ -19,23 +19,16 @@ namespace Shop.Controllers
             _userService = userService;
         }
         [HttpPost]
-        public async Task<IResult> Register(UserDTO userDTO)
+        public async Task<IActionResult> Register(UserDTO userDTO)
         {
             await _userService.CreateAsync(userDTO);
 
-            return Results.Ok();
+            return Ok();
         }
 
-        [HttpGet]
-        public async Task<IResult> GetingUser()
-        {
-            var user = await getUser();
-            Console.WriteLine(user.Email);
-
-            return Results.Ok();
-        }
-
-        private async Task<User> getUser()
+        [Authorize]
+        [HttpGet("getme")]
+        public async Task<ActionResult<User>> GetingUser()
         {
             var userStringId = HttpContext.User.Claims
                 .FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
@@ -45,8 +38,11 @@ namespace Shop.Controllers
             }
             int userId = Convert.ToInt32(userStringId);
             var user = await _userService.GetByIdAsync(userId);
-            return user;
+
+            return Ok(user);
         }
+
+
         
     }
 }

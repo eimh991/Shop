@@ -15,11 +15,11 @@ namespace Shop.Controllers
             _userService = userService;
         }
         [HttpPost]
-        public async Task<IResult> Login(LoginUserDTO loginUserDTO)
+        public async Task<ActionResult<string>> Login(LoginUserDTO loginUserDTO)
         {
             var token = await ((UserService)_userService).Login(loginUserDTO.Email, loginUserDTO.Password);
-            return Results.Ok(token);
-            //return Results.Ok( new { token = "Bearer " + token });
+            return Ok(token);
+            //return Ok( new { token = "Bearer " + token });
         }
     }
 }
