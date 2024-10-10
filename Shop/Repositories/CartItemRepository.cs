@@ -13,7 +13,7 @@ namespace Shop.Repositories
             _context = context;
         }
 
-        public async Task Add(int userId, CartItem entity)
+        public async Task AddAsync(int userId, CartItem entity)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.UserId == userId);
             if (user != null)
@@ -24,7 +24,7 @@ namespace Shop.Repositories
             throw new EntryPointNotFoundException();
         }
 
-        public async Task AddRange(int userId, List<CartItem> entitys)
+        public async Task AddRangeAsync(int userId, List<CartItem> entitys)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.UserId == userId);
             if (user != null)
@@ -35,7 +35,7 @@ namespace Shop.Repositories
             throw new EntryPointNotFoundException();
         }
 
-        public async Task Delete(int entityId)
+        public async Task DeleteAsync(int entityId)
         {
             await _context.CartItems
                 .Where(ci=>ci.CartItemId == entityId)
@@ -68,7 +68,7 @@ namespace Shop.Repositories
 
         }
 
-        public async Task Update(int userId, CartItem entity)
+        public async Task UpdateAsync(int userId, CartItem entity)
         {
             var  user = await _context.Users
                 .AsNoTracking()
@@ -82,7 +82,7 @@ namespace Shop.Repositories
                     cartItem = new CartItem { Quantity  = entity.Quantity };
                     if (cartItem.Quantity == 0)
                     {
-                        await Delete(cartItem.CartItemId);
+                        await DeleteAsync(cartItem.CartItemId);
                     }
                 }
             }

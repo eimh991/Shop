@@ -13,7 +13,7 @@ namespace Shop.Repositories
         {
             _context = context;
         }
-        public async Task Add(int userId, BalanceHistory entity)
+        public async Task AddAsync(int userId, BalanceHistory entity)
         {
             var user =  await _context.Users
                 .FirstOrDefaultAsync(u => u.UserId == userId);
@@ -26,7 +26,7 @@ namespace Shop.Repositories
             }
         }
 
-        public async Task AddRange(int userId, List<BalanceHistory> entitys)
+        public async Task AddRangeAsync(int userId, List<BalanceHistory> entitys)
         {
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.UserId == userId);
@@ -42,7 +42,7 @@ namespace Shop.Repositories
             }
         }
 
-        public async Task Delete(int entityId)
+        public async Task DeleteAsync(int entityId)
         {
             await _context.BalanceHistorys
                 .Where(b=>b.BalanceHistoryId == entityId)
@@ -75,7 +75,7 @@ namespace Shop.Repositories
             return null;
         }
 
-        public Task Update(int userId, BalanceHistory entity)
+        public Task UpdateAsync(int userId, BalanceHistory entity)
         {
             throw new NotImplementedException();
         }

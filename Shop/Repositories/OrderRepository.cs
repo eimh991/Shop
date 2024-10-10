@@ -12,7 +12,7 @@ namespace Shop.Repositories
         {
             _context = context;
         }
-        public async Task Add(int userId, Order entity)
+        public async Task AddAsync(int userId, Order entity)
         {
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.UserId == userId);
@@ -25,12 +25,12 @@ namespace Shop.Repositories
 
         }
 
-        public Task AddRange(int userId, List<Order> entitys)
+        public Task AddRangeAsync(int userId, List<Order> entitys)
         {
             throw new NotImplementedException();
         }
 
-        public async Task Delete(int entityId)
+        public async Task DeleteAsync(int entityId)
         {
             await _context.Orders
                 .Where(o=>o.OrderId == entityId)
@@ -63,7 +63,7 @@ namespace Shop.Repositories
             return null;
         }
 
-        public Task Update(int userId, Order entity)
+        public Task UpdateAsync(int userId, Order entity)
         {
             throw new NotImplementedException();
         }
