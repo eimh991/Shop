@@ -87,5 +87,14 @@ namespace Shop.Repositories
                 }
             }
         }
+
+        public async Task DeleteAllCartItemsAsync(int userId)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+            if (user != null)
+            {
+                user.Cart.CartItems.Clear();
+            }
+        }
     }
 }
