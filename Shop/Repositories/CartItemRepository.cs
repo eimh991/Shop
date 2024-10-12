@@ -94,6 +94,7 @@ namespace Shop.Repositories
             if (user != null)
             {
                 user.Cart.CartItems.Clear();
+                await _context.SaveChangesAsync();
             }
         }
     }
