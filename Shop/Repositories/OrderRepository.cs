@@ -39,19 +39,25 @@ namespace Shop.Repositories
 
         public  async Task<IEnumerable<Order>> GetAllAsync(int userId)
         {
-            var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.UserId == userId);
-
-            if (user != null)
-            {
-                return user.Orders;
-            }
-            return Enumerable.Empty<Order>();
+                return await _context.Orders
+                    .AsNoTracking()
+                    .Include(o=>o.OrderItems)
+                    .Where(o=>o.UserId == userId)
+                    .ToListAsync();
         }
 
         public async Task<Order> GetByIdAsync(int userId, int entityId)
         {
+            return await _context.Orders
+                    .AsNoTracking()
+                    .Include(o => o.OrderItems)
+                    .Where(o => o.UserId == userId)
+                    .FirstOrDefaultAsync(o => o.OrderId == entityId) 
+                     ?? throw new Exception(message: "Заказ который вы ищите не существует");
+
+            /*
             var user = await _context.Users
+                .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.UserId == userId);
 
             if (user != null)
@@ -61,6 +67,7 @@ namespace Shop.Repositories
                     ?? throw new Exception(message: "Заказ который вы ищите не существует");
             }
             return null;
+            */
         }
 
         public Task UpdateAsync(int userId, Order entity)
