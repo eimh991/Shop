@@ -38,7 +38,7 @@ namespace Shop.Service
 
         public async Task<IEnumerable<BalanceHistory>> GetAllHistoryAsync(int userId)
         {
-            return await _balanceRepository.GetAllAsync( userId);
+            return await _balanceRepository.GetAllAsync(userId);
         }
 
         public async Task<BalanceHistory> GetBalanceHistoryByIdAsync(int userId,int balanceHistoryId)

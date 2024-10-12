@@ -46,6 +46,7 @@ namespace Shop.Repositories
         {
             var user =  await _context.Users
                 .AsNoTracking()
+                .Include(u=>u.Cart.CartItems)
                 .FirstOrDefaultAsync(u => u.UserId == userId);
            
             if(user != null)
