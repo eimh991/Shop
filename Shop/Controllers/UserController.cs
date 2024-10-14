@@ -42,7 +42,28 @@ namespace Shop.Controllers
             return Ok(user);
         }
 
+        [HttpDelete]
 
-        
+        public async Task<IActionResult> DeleteUser(int userId)
+        {
+            await _userService.DeleteAsync(userId);
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser(UserDTO user)
+        {
+            await _userService.UpdateAsync(user);
+            return Ok();
+        }
+
+        [HttpPost("status")]
+        public async Task<IActionResult> ChangeStatusAsync(UserDTO userDTO, string status)
+        {
+            await _userService.ChangeStatusAsync(userDTO.UserId,status);
+
+            return Ok();
+        }
+
     }
 }

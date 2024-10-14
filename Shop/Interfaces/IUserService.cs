@@ -9,7 +9,7 @@ namespace Shop.Interfaces
         Task UpdateAsync(UserDTO entity);
         Task<User> GetByIdAsync(int id);
         Task<IEnumerable<User>> GetAllAsync(string search);
-        Task Delete(int id);
+        Task DeleteAsync(int id);
         Task<User> GetByEmaiAsync(string email);
         Task ChangeStatusAsync ( int userId , string status);
     }

@@ -46,7 +46,7 @@ namespace Shop.Service
             await  _userRepository.CreateAsync(user);
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
             await _userRepository.DeleteAsync(id);
         }
@@ -100,7 +100,6 @@ namespace Shop.Service
 
             throw new Exception("Нет такого пользователя");
         }
-
 
     }
 }
