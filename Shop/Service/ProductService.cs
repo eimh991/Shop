@@ -34,7 +34,7 @@ namespace Shop.Service
 
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
            await _productRepository.DeleteAsync(id);
         }

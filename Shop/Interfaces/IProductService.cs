@@ -10,7 +10,7 @@ namespace Shop.Interfaces
         Task UpdateAsync(ProductDTO entity);
         Task<Product> GetByIdAsync(int id);
         Task<IEnumerable<Product>> GetAllAsync(string search);
-        Task Delete(int id);
+        Task DeleteAsync(int id);
         
     }
 }
