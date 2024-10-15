@@ -54,8 +54,9 @@ namespace Shop.Repositories
         public async Task<Category> FindByCategoryTitlleAsync(string title)
         {
             return await _context.Categories
-                .FirstOrDefaultAsync(c => c.CategoryName == title)
-                ?? throw new Exception(message: "Вы выбрали не существующию категорию");
+                     .FirstOrDefaultAsync(c => 
+                     c.CategoryName.ToLower() == title.ToLower())
+                     ?? throw new Exception(message: "Вы выбрали не существующию категорию");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Shop.Interfaces;
 using Shop.Model;
+using Shop.Repositories;
 
 namespace Shop.Service
 {
@@ -15,7 +16,7 @@ namespace Shop.Service
             await _categoryRepository.CreateAsync(entity);
         }
 
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
            await _categoryRepository.DeleteAsync(id);
         }
@@ -33,6 +34,11 @@ namespace Shop.Service
         public Task UpdateAsync(Category entity)
         {
             return _categoryRepository.UpdateAsync(entity);
+        }
+
+        public async Task<Category> GetByTitleAsync(string name)
+        {
+            return await ((CategoryRepository)_categoryRepository).FindByCategoryTitlleAsync(name);
         }
     }
 }
