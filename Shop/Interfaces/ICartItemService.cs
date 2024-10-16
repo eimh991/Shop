@@ -1,16 +1,17 @@
-﻿using Shop.Model;
+﻿using Shop.DTO;
+using Shop.Model;
 using System.Collections.Generic;
 
 namespace Shop.Interfaces
 {
     public interface ICartItemService
     {
-        Task CreateCartItemAsync(int userId, CartItem cartItem);
+        Task CreateCartItemAsync(CartItemDTO cartItemDTO);
         Task DeleteCartItemAsync(int cartItemId);
-        Task<IEnumerable<CartItem>> GetAllCartItems(int userId);
-        Task<CartItem> GetCartItemById(int userId, int entityId);
-        Task UpdateCountCartItems(int userId, CartItem cartItem);
+        Task<IEnumerable<CartItem>> GetAllCartItemsAsync(int userId);
+        Task<CartItem> GetCartItemByIdAsync(int userId, int entityId);
+        Task UpdateCountCartItemsAsync(int userId, int cartItemId, int quentity);
 
-        Task ClearAllCartItems(int userId);
+        Task ClearAllCartItemsAsync(int userId);
     }
 }

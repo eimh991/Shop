@@ -109,5 +109,19 @@ namespace Shop.Repositories
                     .SetProperty(u => u.Role , userRole)
                     );
         }
+
+        public async Task<User> GetUserWhisCartAsync(int userId)
+        {
+            var user = await _context.Users
+                .AsNoTracking()
+                .Include(u => u.Cart)
+                .FirstOrDefaultAsync(u => u.UserId == userId);
+
+            if (user != null)
+            {
+                return user;
+            }
+            return null;
+        }
     }
 }
