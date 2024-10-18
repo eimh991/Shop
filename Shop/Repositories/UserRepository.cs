@@ -110,11 +110,25 @@ namespace Shop.Repositories
                     );
         }
 
-        public async Task<User> GetUserWhisCartAsync(int userId)
+        public async Task<User> GetUserWithCartAsync(int userId)
         {
             var user = await _context.Users
                 .AsNoTracking()
                 .Include(u => u.Cart)
+                .FirstOrDefaultAsync(u => u.UserId == userId);
+
+            if (user != null)
+            {
+                return user;
+            }
+            return null;
+        }
+
+        public async Task<User> GetUserWithCartsItemAsync(int userId)
+        {
+            var user = await _context.Users
+                .AsNoTracking()
+                .Include(u => u.Cart.CartItems)
                 .FirstOrDefaultAsync(u => u.UserId == userId);
 
             if (user != null)

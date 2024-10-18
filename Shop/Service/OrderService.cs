@@ -9,11 +9,14 @@ namespace Shop.Service
 
         private readonly IRepositoryWithUser<Order> _orderRepository;
         private readonly IRepositoryWithUser<CartItem> _cartItemRepository;
+        private readonly IRepository<User> _userRepository;
 
-        public OrderService(IRepositoryWithUser<Order> orderRepository, IRepositoryWithUser<CartItem> cartItemRepository)
+        public OrderService(IRepositoryWithUser<Order> orderRepository, 
+                            IRepositoryWithUser<CartItem> cartItemRepository, IRepository<User> userRepository)
         {
             _orderRepository = orderRepository;
             _cartItemRepository = cartItemRepository;
+            _userRepository = userRepository;
         }
 
         public async Task CreateOrderAsync(int userId,IEnumerable<CartItem> items)
@@ -29,16 +32,16 @@ namespace Shop.Service
             await ((CartItemRepository)_cartItemRepository).DeleteAllCartItemsAsync(userId);
         }
 
-        public async Task<IEnumerable<Order>> GetAllOrders(int userId)
+        public async Task<IEnumerable<Order>> GetAllOrdersAsync(int userId)
         {
            return  await _orderRepository.GetAllAsync(userId)?? 
                 Enumerable.Empty<Order>(); ;
      
         }
 
-        public async Task<Order> GetOrderById(int userId, int entityId)
+        public async Task<Order> GetOrderByIdAsync(int userId, int entityId)
         {
-            return await GetOrderById(userId, entityId);
+            return await _orderRepository.GetByIdAsync(userId, entityId);
         }
 
         private IEnumerable<OrderItem> ConvertCartItemsToOrderItems(IEnumerable<CartItem> items)
@@ -60,5 +63,6 @@ namespace Shop.Service
             }
             return allPrice;
         }
+        
     }
 }

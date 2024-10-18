@@ -66,7 +66,7 @@ namespace Shop.Service
         }
 
         private async Task<Cart> GetUserCartAsync(int userId) {
-            var user = await ((UserRepository)_userRepository).GetUserWhisCartAsync(userId);
+            var user = await ((UserRepository)_userRepository).GetUserWithCartAsync(userId);
             if(user != null) {
                 return user.Cart;
             }

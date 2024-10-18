@@ -101,5 +101,15 @@ namespace Shop.Service
             throw new Exception("Нет такого пользователя");
         }
 
+        public async Task<IEnumerable<CartItem>> GetUserCartItemsAsync(int userId)
+        {
+            var user = await ((UserRepository)_userRepository).GetUserWithCartsItemAsync(userId);
+            if (user != null)
+            {
+                return user.Cart.CartItems;
+            }
+            return Enumerable.Empty<CartItem>();
+        }
+
     }
 }

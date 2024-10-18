@@ -5,8 +5,8 @@ namespace Shop.Interfaces
     public interface IOrderService
     {
         public Task CreateOrderAsync(int userId, IEnumerable<CartItem> items);
-        public Task<Order> GetOrderById(int userId, int entityId);
+        public Task<Order> GetOrderByIdAsync(int userId, int entityId);
 
-        public Task<IEnumerable<Order>> GetAllOrders(int userId); 
+        public Task<IEnumerable<Order>> GetAllOrdersAsync(int userId); 
     }
 }
