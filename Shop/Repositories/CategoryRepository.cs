@@ -27,11 +27,12 @@ namespace Shop.Repositories
 
         public async Task<IEnumerable<Category>> GetAllAsync(string search)
         {
-            return await _context.Categories
+            var cat =  await _context.Categories
                 .AsNoTracking()
-                .Where(c=>!string.IsNullOrWhiteSpace(search) &&
+                .Where(c=>!string.IsNullOrWhiteSpace(search) ||
                 c.CategoryName.ToLower().Contains(search.ToLower()))
                 .ToListAsync();
+            return cat;
         }
 
         public async Task<Category> GetByIdAsync(int id)
