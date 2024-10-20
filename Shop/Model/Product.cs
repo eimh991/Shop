@@ -8,7 +8,7 @@
         public decimal Price { get; set; }
         public int Stock { get; set; }
 
-        public string ImagePath { get; set; } = "/images/default.jpg";
+        public string ImagePath { get; set; } = string.Empty;
 
         // Внешний ключ и связь
         public int CategoryId { get; set; }

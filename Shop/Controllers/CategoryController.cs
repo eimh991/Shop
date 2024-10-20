@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Shop.DTO;
 using Shop.Interfaces;
 using Shop.Model;
 using Shop.Service;
@@ -16,7 +17,7 @@ namespace Shop.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Category>>> GetAllCategories(string search)
+        public async Task<ActionResult<List<Category>>> GetAllCategories(string search = "")
         {
             var categories = await _categoryService.GetAllAsync(search);
             if (categories != null)
@@ -36,10 +37,10 @@ namespace Shop.Controllers
             return NotFound(new { Messge = "По вашему запросу категория не найдена" });
         }
         [HttpPost]
-        public async Task<IActionResult> CreateCategory(Category category)
+        public async Task<IActionResult> CreateCategory(CategoryDTO categoryDto)
         {
-            await _categoryService.CreateAsync(category);
-            return Ok(category);
+            await _categoryService.CreateAsync(categoryDto);
+            return Ok(categoryDto);
         }
 
         [HttpDelete]
@@ -50,10 +51,10 @@ namespace Shop.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> CorrectCategory(Category category)
+        public async Task<IActionResult> CorrectCategory(CategoryDTO categoryDto)
         {
-            await _categoryService.UpdateAsync(category);
-            return Ok(category);
+            await _categoryService.UpdateAsync(categoryDto);
+            return Ok(categoryDto);
         }
 
         [HttpGet("title")]

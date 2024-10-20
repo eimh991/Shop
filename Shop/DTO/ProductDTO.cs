@@ -10,6 +10,6 @@
 
         public string CategoryTitle { get; set; }
 
-        public string ImagePath { get; set; } = "/images/default.jpg";
+        public string ImagePath { get; set; } = string.Empty;
     }
 }

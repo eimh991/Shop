@@ -25,7 +25,7 @@ namespace Shop.Service
                 Name = entity.Name,
                 Price = entity.Price,
                 Description = entity.Description,
-                ImagePath = entity.ImagePath,
+                ImagePath = сheckingProductPictures(entity.ImagePath),
                 Stock = entity.Stock,
                 CategoryId = category.CategoryId,
             };
@@ -58,7 +58,7 @@ namespace Shop.Service
                 Name = entity.Name,
                 Price = entity.Price,
                 Description = entity.Description,
-                ImagePath = entity.ImagePath,
+                ImagePath = сheckingProductPictures(entity.ImagePath),
                 Stock = entity.Stock,
                 CategoryId = category.CategoryId,
             };
@@ -91,6 +91,15 @@ namespace Shop.Service
                 await ((ProductRepository)_productRepository).ChangeQuantityProductAsync(product);
             }
 
+        }
+
+        private string сheckingProductPictures(string pathImage)
+        {
+            if (pathImage == null && pathImage == string.Empty)
+            {
+                pathImage = "/images/default.jpg";
+            }
+            return pathImage;
         }
     }
 }

@@ -9,14 +9,11 @@ namespace Shop.Service
 
         private readonly IRepositoryWithUser<Order> _orderRepository;
         private readonly IRepositoryWithUser<CartItem> _cartItemRepository;
-        private readonly IRepository<User> _userRepository;
 
-        public OrderService(IRepositoryWithUser<Order> orderRepository, 
-                            IRepositoryWithUser<CartItem> cartItemRepository, IRepository<User> userRepository)
+        public OrderService(IRepositoryWithUser<Order> orderRepository,IRepositoryWithUser<CartItem> cartItemRepository)
         {
             _orderRepository = orderRepository;
             _cartItemRepository = cartItemRepository;
-            _userRepository = userRepository;
         }
 
         public async Task CreateOrderAsync(int userId,IEnumerable<CartItem> items)

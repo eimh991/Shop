@@ -43,7 +43,7 @@ namespace Shop.Repositories
             var users = await _context.Users
                 .AsNoTracking()
                 .Include(u=>u.Orders)
-                .Where(u=>!string.IsNullOrWhiteSpace(search) &&
+                .Where(u=>!string.IsNullOrWhiteSpace(search) ||
                 u.UserName.ToLower().Contains(search.ToLower())).ToListAsync();
 
             if (users != null)
