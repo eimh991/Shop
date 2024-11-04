@@ -17,7 +17,7 @@ namespace Shop.Controllers
             _productService = productService;
         }
         [HttpPost]
-        public async Task<IActionResult> Register(ProductDTO productDTO)
+        public async Task<IActionResult> CreateProduct([FromBody]ProductDTO productDTO)
         {
             await _productService.CreateAsync(productDTO);
 
@@ -25,7 +25,7 @@ namespace Shop.Controllers
         }
 
         [HttpGet("id")]
-        public async Task<ActionResult<Product>> GetProductById(int productID)
+        public async Task<ActionResult<ProductResponceDTO>> GetProductById(int productID)
         {
             var product = await _productService.GetByIdAsync(productID);
 
@@ -37,7 +37,7 @@ namespace Shop.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetProducts(string search = "", int paginateSize = 10, int page = 1)
+        public async Task<ActionResult<List<ProductResponceDTO>>> GetProducts(string search = "", int paginateSize = 10, int page = 1)
         {
             var products = await _productService.GetAllAsync(search, paginateSize,page);
             if (products != null)
@@ -52,7 +52,7 @@ namespace Shop.Controllers
         {
             await _productService.DeleteAsync(productId);
 
-            return RedirectToAction("GetProducts");
+            return Ok();
         }
 
         [HttpPut]
@@ -60,7 +60,7 @@ namespace Shop.Controllers
         {
             await _productService.UpdateAsync(productDTO);
 
-            return RedirectToAction("GetProducts");
+            return Ok();
         }
 
         [HttpPut("price")]
@@ -68,7 +68,7 @@ namespace Shop.Controllers
         {
             await ((ProductService)_productService).ChangePriceAsync(productDTO);
 
-            return RedirectToAction("GetProducts");
+            return Ok();
         }
     }
 }

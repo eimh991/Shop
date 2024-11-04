@@ -39,14 +39,18 @@ namespace Shop.Service
            await _productRepository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<Product>> GetAllAsync(string search, int paginateSize, int page)
+        public async Task<IEnumerable<ProductResponceDTO>> GetAllAsync(string search, int paginateSize, int page)
         {
-            return await ((ProductRepository)_productRepository).GetAllPaginateAsync(search, paginateSize, page);
+            var products = await ((ProductRepository)_productRepository).GetAllPaginateAsync(search, paginateSize, page);
+            return ConvertProductToProductResponceDTO(products);
+
         }
 
-        public async Task<Product> GetByIdAsync(int id)
+        public async Task<ProductResponceDTO> GetByIdAsync(int id)
         {
-            return await _productRepository.GetByIdAsync(id);
+            var product = await _productRepository.GetByIdAsync(id);
+            var responceProduct = ConvertProductToProductResponceDTO(new List<Product> {product})[0];
+            return responceProduct;
         }
 
         public async Task UpdateAsync(ProductDTO entity)
@@ -95,11 +99,26 @@ namespace Shop.Service
 
         private string сheckingProductPictures(string pathImage)
         {
-            if (pathImage == null && pathImage == string.Empty)
+            if (pathImage == string.Empty  || string.IsNullOrWhiteSpace(pathImage))
             {
                 pathImage = "/images/default.jpg";
             }
             return pathImage;
+        }
+
+        private  List<ProductResponceDTO> ConvertProductToProductResponceDTO(IEnumerable<Product> products)
+        {
+
+            return products.Select(p => new ProductResponceDTO()
+            {
+                ProductId = p.ProductId,
+                Name = p.Name,
+                Description = p.Description,
+                Price = p.Price,
+                ImagePath = p.ImagePath,
+                Stock = p.Stock,
+                CategoryId = p.CategoryId,
+            }).ToList();
         }
     }
 }
