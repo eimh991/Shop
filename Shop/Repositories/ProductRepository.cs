@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Shop.Data;
 using Shop.Interfaces;
 using Shop.Model;
@@ -83,6 +84,16 @@ namespace Shop.Repositories
                 await _context.SaveChangesAsync();
             }
   
+        }
+        public async Task<IEnumerable<Product>> GetAllPaginateAsync(string search, int paginateSize, int page)
+        {
+            return await _context.Products
+                            .AsNoTracking()
+                            .Where(p => !string.IsNullOrWhiteSpace(search) ||
+                            p.Name.ToLower().Contains(search.ToLower()))
+                            .Skip(paginateSize * (page-1))
+                            .Take(paginateSize)
+                            .ToListAsync();
         }
     }
 }

@@ -2,6 +2,7 @@
 using Shop.Data;
 using Shop.Interfaces;
 using Shop.Model;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Shop.Repositories
 {
@@ -57,7 +58,7 @@ namespace Shop.Repositories
             return await _context.Categories
                      .FirstOrDefaultAsync(c => 
                      c.CategoryName.ToLower() == title.ToLower())
-                     ?? throw new Exception(message: "Вы выбрали не существующию категорию");
+                     ?? null;
         }
     }
 }

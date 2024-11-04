@@ -37,9 +37,9 @@ namespace Shop.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Product>>> GetProducts(string search = "")
+        public async Task<ActionResult<List<Product>>> GetProducts(string search = "", int paginateSize = 10, int page = 1)
         {
-            var products = await _productService.GetAllAsync(search);
+            var products = await _productService.GetAllAsync(search, paginateSize,page);
             if (products != null)
             {
                 return Ok(products);
