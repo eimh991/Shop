@@ -12,8 +12,8 @@ using Shop.Data;
 namespace Shop.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240911125316_Initial")]
-    partial class Initial
+    [Migration("20241106172023_Correct")]
+    partial class Correct
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -38,7 +38,8 @@ namespace Shop.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("timestamp with time zone");
@@ -50,7 +51,7 @@ namespace Shop.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("BalanceHistory");
+                    b.ToTable("BalanceHistorys");
                 });
 
             modelBuilder.Entity("Shop.Model.Cart", b =>
@@ -111,7 +112,8 @@ namespace Shop.Migrations
 
                     b.Property<string>("CategoryName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("CategoryId");
 
@@ -187,6 +189,10 @@ namespace Shop.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(256)
@@ -195,7 +201,7 @@ namespace Shop.Migrations
                     b.Property<decimal>("Price")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("numeric")
-                        .HasDefaultValue(100m);
+                        .HasDefaultValue(0.01m);
 
                     b.Property<int>("Stock")
                         .HasColumnType("integer");
@@ -224,17 +230,21 @@ namespace Shop.Migrations
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("integer");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<int>("UserRole")
+                        .HasColumnType("integer");
+
                     b.HasKey("UserId");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });

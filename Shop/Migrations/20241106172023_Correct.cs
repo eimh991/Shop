@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Shop.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class Correct : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +18,7 @@ namespace Shop.Migrations
                 {
                     CategoryId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CategoryName = table.Column<string>(type: "text", nullable: false)
+                    CategoryName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,9 +33,9 @@ namespace Shop.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Email = table.Column<string>(type: "text", nullable: false),
-                    PasswordHash = table.Column<string>(type: "text", nullable: false),
+                    PasswordHash = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Balance = table.Column<decimal>(type: "numeric", nullable: false),
-                    Role = table.Column<int>(type: "integer", nullable: false)
+                    UserRole = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -50,8 +50,9 @@ namespace Shop.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: false),
                     Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                    Price = table.Column<decimal>(type: "numeric", nullable: false, defaultValue: 100m),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false, defaultValue: 0.01m),
                     Stock = table.Column<int>(type: "integer", nullable: false),
+                    ImagePath = table.Column<string>(type: "text", nullable: false),
                     CategoryId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -66,21 +67,21 @@ namespace Shop.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BalanceHistory",
+                name: "BalanceHistorys",
                 columns: table => new
                 {
                     BalanceHistoryId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Amount = table.Column<decimal>(type: "numeric", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
                     TransactionDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BalanceHistory", x => x.BalanceHistoryId);
+                    table.PrimaryKey("PK_BalanceHistorys", x => x.BalanceHistoryId);
                     table.ForeignKey(
-                        name: "FK_BalanceHistory_Users_UserId",
+                        name: "FK_BalanceHistorys_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
@@ -184,8 +185,8 @@ namespace Shop.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BalanceHistory_UserId",
-                table: "BalanceHistory",
+                name: "IX_BalanceHistorys_UserId",
+                table: "BalanceHistorys",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -223,13 +224,19 @@ namespace Shop.Migrations
                 name: "IX_Products_CategoryId",
                 table: "Products",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Users_Email",
+                table: "Users",
+                column: "Email",
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BalanceHistory");
+                name: "BalanceHistorys");
 
             migrationBuilder.DropTable(
                 name: "CartItems");
