@@ -35,7 +35,8 @@ namespace Shop.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.Property<DateTime>("TransactionDate")
                         .HasColumnType("timestamp with time zone");
@@ -47,7 +48,7 @@ namespace Shop.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("BalanceHistory");
+                    b.ToTable("BalanceHistorys");
                 });
 
             modelBuilder.Entity("Shop.Model.Cart", b =>
@@ -108,7 +109,8 @@ namespace Shop.Migrations
 
                     b.Property<string>("CategoryName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("CategoryId");
 
@@ -228,13 +230,13 @@ namespace Shop.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("integer");
-
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
+
+                    b.Property<int>("UserRole")
+                        .HasColumnType("integer");
 
                     b.HasKey("UserId");
 

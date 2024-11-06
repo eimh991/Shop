@@ -106,7 +106,7 @@ namespace Shop.Repositories
             await _context.Users
                 .Where(u => u.UserId == userId)
                 .ExecuteUpdateAsync(s => s
-                    .SetProperty(u => u.Role , userRole)
+                    .SetProperty(u => u.UserRole, userRole)
                     );
         }
 

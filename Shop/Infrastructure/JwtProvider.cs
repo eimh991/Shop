@@ -18,8 +18,10 @@ namespace Shop.Infrastructure
         public string GenerateToken(User user)
         {
             var claims = new List<Claim> {
-                new Claim(ClaimTypes.Sid, user.UserId.ToString())
+                new Claim(ClaimTypes.Sid, user.UserId.ToString()),
+                new Claim("UserRole", user.UserRole.ToString())
             };
+
             var signingCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey)),
                 SecurityAlgorithms.HmacSha256);

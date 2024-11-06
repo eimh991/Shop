@@ -40,7 +40,7 @@ namespace Shop.Service
                 Email = entity.Email,
                 PasswordHash = Register(entity.Password),
                 Balance = 0.0m,
-                Role = Enum.UserRole.User,
+                UserRole = Enum.UserRole.User,
             };
             
             await  _userRepository.CreateAsync(user);

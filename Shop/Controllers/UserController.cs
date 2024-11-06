@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shop.Attribute;
 using Shop.DTO;
+using Shop.Enum;
 using Shop.Interfaces;
 using Shop.Model;
 using Shop.Service;
@@ -63,6 +65,18 @@ namespace Shop.Controllers
             await _userService.ChangeStatusAsync(userDTO.UserId,status);
 
             return Ok();
+        }
+
+        [HttpGet("id")]
+        //[AuthorizeRole(UserRole.Admin)]
+        public async Task<ActionResult<User>> GetUserByIdAsync(int id)
+        {
+            var user = await _userService.GetByIdAsync(id);
+            if (user == null)
+            {
+                throw new Exception("Нету такого пользователя");
+            }
+            return Ok(user);
         }
 
     }

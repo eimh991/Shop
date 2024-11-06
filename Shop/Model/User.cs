@@ -11,7 +11,7 @@ namespace Shop.Model
         public string PasswordHash { get; set; } = string.Empty;
         public decimal Balance { get; set; } // Текущий баланс пользователя
 
-        public UserRole Role { get; set; }
+        public UserRole UserRole { get; set; }
 
         // Навигационные свойства
         public List<Order> Orders { get; set; } = new List<Order>();
