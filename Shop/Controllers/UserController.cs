@@ -83,7 +83,7 @@ namespace Shop.Controllers
         }
 
         [HttpGet("id")]
-        //[AuthorizeRole(UserRole.Admin)]
+        [AuthorizeRole(UserRole.Admin)]
         public async Task<ActionResult<User>> GetUserByIdAsync(int id)
         {
             var user = await _userService.GetByIdAsync(id);
