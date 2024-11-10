@@ -15,10 +15,11 @@ namespace Shop.Controllers
             _userService = userService;
         }
         [HttpPost]
-        public async Task<ActionResult<string>> Login(LoginUserDTO loginUserDTO)
+        public async Task<ActionResult> Login(LoginUserDTO loginUserDTO)
         {
             var token = await ((UserService)_userService).Login(loginUserDTO.Email, loginUserDTO.Password);
-            return Ok(token);
+            HttpContext.Response.Cookies.Append("test-cookie", token);
+            return Ok();
             //return Ok( new { token = "Bearer " + token });
         }
     }

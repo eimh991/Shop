@@ -7,6 +7,7 @@ using Shop.Interfaces;
 using Shop.Model;
 using Shop.Service;
 using Shop.UsersDTO;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace Shop.Controllers
@@ -28,12 +29,26 @@ namespace Shop.Controllers
             return Ok();
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet("getme")]
         public async Task<ActionResult<User>> GetingUser()
         {
-            var userStringId = HttpContext.User.Claims
-                .FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
+
+            /*var userStringId = HttpContext.User.Claims
+                .FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;*/
+            var token = Request.Cookies["test-cookie"];
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized("Token not found in cookies.");
+            }
+
+            // Парсим токен
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token);
+
+            // Извлекаем значение из claim с типом Sid
+            var userStringId = jwtToken?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Sid)?.Value;
+
             if (userStringId == null)
             {
                 throw new Exception("Ошибка авторизационных данных");

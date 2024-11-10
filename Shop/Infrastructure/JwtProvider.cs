@@ -19,7 +19,7 @@ namespace Shop.Infrastructure
         {
             var claims = new List<Claim> {
                 new Claim(ClaimTypes.Sid, user.UserId.ToString()),
-                new Claim("UserRole", user.UserRole.ToString())
+                new Claim(ClaimTypes.Role, user.UserRole.ToString())
             };
 
             var signingCredentials = new SigningCredentials(
