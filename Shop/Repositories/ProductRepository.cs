@@ -95,5 +95,16 @@ namespace Shop.Repositories
                             .Take(paginateSize)
                             .ToListAsync();
         }
+
+        public async Task<IEnumerable<Product>> GetLastProductsAsync()
+        {
+            var product =  await _context.Products
+                            .AsNoTracking()
+                            .OrderByDescending(p=>p.ProductId)
+                            .Take(3)
+                            .ToListAsync();
+
+            return product;
+        }
     }
 }

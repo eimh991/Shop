@@ -97,6 +97,13 @@ namespace Shop.Service
 
         }
 
+        public async Task<IEnumerable<ProductResponceDTO>> GetLastProductsAsync()
+        {
+            var products = await ((ProductRepository)_productRepository).GetLastProductsAsync();
+            return ConvertProductToProductResponceDTO(products);
+
+        }
+
         private string сheckingProductPictures(string pathImage)
         {
             if (pathImage == string.Empty  || string.IsNullOrWhiteSpace(pathImage))

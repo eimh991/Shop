@@ -17,7 +17,7 @@ namespace Shop.Controllers
             _productService = productService;
         }
         [HttpPost]
-        public async Task<IActionResult> CreateProduct([FromBody]ProductDTO productDTO)
+        public async Task<IActionResult> CreateProductAsync([FromBody]ProductDTO productDTO)
         {
             await _productService.CreateAsync(productDTO);
 
@@ -25,7 +25,7 @@ namespace Shop.Controllers
         }
 
         [HttpGet("id")]
-        public async Task<ActionResult<ProductResponceDTO>> GetProductById(int productID)
+        public async Task<ActionResult<ProductResponceDTO>> GetProductByIdAsync(int productID)
         {
             var product = await _productService.GetByIdAsync(productID);
 
@@ -37,7 +37,7 @@ namespace Shop.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<ProductResponceDTO>>> GetProducts(string search = "", int paginateSize = 10, int page = 1)
+        public async Task<ActionResult<List<ProductResponceDTO>>> GetProductsAsync(string search = "", int paginateSize = 10, int page = 1)
         {
             var products = await _productService.GetAllAsync(search, paginateSize,page);
             if (products != null)
@@ -48,7 +48,7 @@ namespace Shop.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(int productId)
+        public async Task<IActionResult> DeleteAsync(int productId)
         {
             await _productService.DeleteAsync(productId);
 
@@ -56,7 +56,7 @@ namespace Shop.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> ChangeProduct(ProductDTO productDTO)
+        public async Task<IActionResult> ChangeProductAsync(ProductDTO productDTO)
         {
             await _productService.UpdateAsync(productDTO);
 
@@ -70,5 +70,18 @@ namespace Shop.Controllers
 
             return Ok();
         }
+
+        [HttpGet("last")]
+        public async Task<ActionResult<List<ProductResponceDTO>>> GetLastProductsAsync()
+        {
+            var products = await ((ProductService)_productService).GetLastProductsAsync();
+            if (products != null)
+            {
+                return Ok(products);
+            }
+            return NotFound(new { Messge = "Нету продуктов с таким названием или описанием" });
+        }
+
+
     }
 }
