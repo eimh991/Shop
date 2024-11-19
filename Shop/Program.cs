@@ -64,10 +64,20 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-var app = builder.Build();
-app.UseAuthentication();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowMyOrigin", builder =>
+        builder.WithOrigins("http://localhost:3000") 
+               .AllowAnyMethod()
+               .AllowAnyHeader());
+});
 
+var app = builder.Build();
+
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors("AllowMyOrigin");
 
 if (app.Environment.IsDevelopment())
 {
