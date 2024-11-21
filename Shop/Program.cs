@@ -66,10 +66,13 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowMyOrigin", builder =>
-        builder.WithOrigins("http://localhost:3000") 
+    options.AddPolicy("AllowMyOrigin", policy =>
+    {
+        policy.WithOrigins("http://localhost:3000")
+               .AllowCredentials()
                .AllowAnyMethod()
-               .AllowAnyHeader());
+               .AllowAnyHeader();
+    });
 });
 
 var app = builder.Build();

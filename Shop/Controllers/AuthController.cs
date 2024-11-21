@@ -17,10 +17,25 @@ namespace Shop.Controllers
         [HttpPost]
         public async Task<ActionResult> Login(LoginUserDTO loginUserDTO)
         {
+            /*
             var token = await ((UserService)_userService).Login(loginUserDTO.Email, loginUserDTO.Password);
             HttpContext.Response.Cookies.Append("test-cookie", token);
             return Ok();
             //return Ok( new { token = "Bearer " + token });
+            */
+            Console.WriteLine("Авторизация: " + loginUserDTO.Email);
+
+            var token = await ((UserService)_userService).Login(loginUserDTO.Email, loginUserDTO.Password);
+
+            HttpContext.Response.Cookies.Append("test-cookie", token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = false, 
+                SameSite = SameSiteMode.Lax
+            });
+
+            Console.WriteLine("Токен сгенерирован и кука установлена.");
+            return Ok();
         }
     }
 }
