@@ -30,11 +30,33 @@ namespace Shop.Controllers
             HttpContext.Response.Cookies.Append("test-cookie", token, new CookieOptions
             {
                 HttpOnly = true,
-                Secure = false, 
-                SameSite = SameSiteMode.Lax
+                Secure = true, 
+                SameSite = SameSiteMode.None
             });
-
+            Console.WriteLine("Request Cookies: " + string.Join(", ", HttpContext.Request.Cookies.Keys));
             Console.WriteLine("Токен сгенерирован и кука установлена.");
+            return Ok();
+        }
+
+        [HttpGet("check")]
+        public IActionResult Check()
+        {
+            var token = Request.Cookies["test-cookie"];
+            Console.WriteLine("Полученный токен: " + token);
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return Unauthorized(); 
+            }
+
+            return Ok(); 
+        }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            HttpContext.Response.Cookies.Delete("test-cookie");
+
             return Ok();
         }
     }
