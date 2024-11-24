@@ -29,7 +29,7 @@ namespace Shop.Extensions
                     {
                         OnMessageReceived = context =>
                         {
-                            context.Token = context.Request.Cookies["test-cookie"];
+                            context.Token = context.Request.Cookies["ck"] ;
                             return Task.CompletedTask;
                         }
                     };

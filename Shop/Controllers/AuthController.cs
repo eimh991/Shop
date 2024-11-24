@@ -33,9 +33,8 @@ namespace Shop.Controllers
                 Secure = true, 
                 SameSite = SameSiteMode.None
             });
-            Console.WriteLine("Request Cookies: " + string.Join(", ", HttpContext.Request.Cookies.Keys));
-            Console.WriteLine("Токен сгенерирован и кука установлена.");
-            return Ok();
+            Console.WriteLine($"Токен на сервере: {token}");
+            return Ok(token);
         }
 
         [HttpGet("check")]
